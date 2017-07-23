@@ -9,6 +9,12 @@
 
 ## 文獻
 
+### 認識中文字元碼
+
+曾士熊,中研院計算中心,2004-2005
+
+* [Site](http://idv.sinica.edu.tw/bear/charcodes/codeindex.htm) ([Wayback machine](https://web.archive.org/web/*/http://idv.sinica.edu.tw/bear/charcodes/codeindex.htm))
+
 ### 中文字碼: 萬碼奔騰, 一碼當先
 
 黃大一, 永麒科技股份有限公司, 1990
