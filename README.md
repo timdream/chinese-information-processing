@@ -9,6 +9,24 @@
 
 ## 文獻
 
+### Big5 Variants in Mozilla: Mozilla 系列與 Big5 中文字碼
+
+Hung-te Lin (piaip), Guan-tin Chien (timdream), MozTW, Mozilla 台灣社群, 2005-2017
+
+* [Site](https://moztw.org/docs/big5/)
+
+### Hong Kong Supplementary Character Set (HKSCS) — ogcio.gov.uk
+
+Office of the Government Chief Information Officer, Government of the Hong Kong Special Administrative Region, 2016
+
+* [Site](https://www.ogcio.gov.hk/en/business/tech_promotion/ccli/hkscs/)
+
+### Digital 21: IT Infrastructure: HKSCS
+
+The Government of the Hong Kong Special Administrative Region, 2006
+
+* [Wayback Machine](https://web.archive.org/web/20070626220940id_/http://www.info.gov.hk:80/digital21/eng/hkscs/introduction.html)
+
 ### 認識中文字元碼
 
 曾士熊,中研院計算中心,2004-2005
