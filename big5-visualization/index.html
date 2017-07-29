@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="utf-8">
+  <title>Comparsion of Big-5 encoding/decoding tables</title>
+  <style type="text/css">
+    body {
+      font-family: sans-serif;
+    }
+    #controls {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      font-size: 1.2em;
+    }
+    #sources {
+      font-size: 0.8em;
+    }
+    #controls select {
+      font-size: 1.2em;
+    }
+    th, td {
+      border: 2px dashed #ccc;
+      min-width: 1.5em;
+      text-align: center;
+    }
+    td {
+      font-size: 1.2em;
+      line-height: 1.2em;
+      width: 1.5em;
+      height: 1.5em;
+    }
+    td.added {
+      border: 2px solid #0f0;
+    }
+    td.removed,
+    td.conflict {
+      border: 2px solid #f00;
+    }
+    td:hover {
+      transform: scale(2.5);
+      background-color: #fff;
+    }
+    td.blank {
+      background-color: #d0d0d0;
+    }
+    td.pua {
+      background-color: #ffffcc;
+    }
+    td.non-bmp, td.composed {
+      background-color: #ccccff;
+    }
+    td.cjk-comp {
+      background-color: #ccffcc;
+    }
+    td.multi {
+      background-color: #ffcccc;
+    }
+    td.error {
+      background: #000;
+      color: #ddd;
+    }
+    th {
+      font-family: monospace;
+    }
+  </style>
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <h1 id="top">Comparsion of Big-5 encoding/decoding tables</h1>
+  <div id="controls">
+    <p>Visualize <select id="tableName" onchange="updateTable()">
+      <option value="" selected></option>
+      <option value="MICSFT-WINDOWS-CP950">Windows CP950 (unicode.org)</option>
+      <option value="cp950-u2b">Windows CP950 Unicode→Big5 (moztw.org)</option>
+      <option value="cp950-b2u">Windows CP950 Big5→Unicode (moztw.org)</option>
+      <option value="big5_2003-u2b">Big5-2003 Unicode→Big5 (moztw.org)</option>
+      <option value="big5_2003-b2u">Big5-2003 Big5→Unicode (moztw.org)</option>
+      <option value="uao241-u2b">UAO 2.41 Unicode→Big5 (moztw.org)</option>
+      <option value="uao241-b2u">UAO 2.41 Big5→Unicode (moztw.org)</option>
+      <option value="uao250-u2b">UAO 2.50 Unicode→Big5 (moztw.org)</option>
+      <option value="uao250-b2u">UAO 2.50 Big5→Unicode (moztw.org)</option>
+      <option value="moz18-u2b">Mozilla 1.8 Unicode→Big5 (moztw.org)</option>
+      <option value="moz18-b2u">Mozilla 1.8 Big5→Unicode (moztw.org)</option>
+      <option value="moz18-b2u-strict">Mozilla 1.8 Strict Big5→Unicode (moztw.org)</option>
+      <option value="hkscs2001-u2b">Big5-HKSCS 2001 Unicode→Big5 (moztw.org)</option>
+      <option value="hkscs2001-b2u">Big5-HKSCS 2001 Big5→Unicode (moztw.org)</option>
+      <option value="hkscs2004-u11">HKSCS 2004 in Unicode 1.1 (1993) (info.gov.hk)</option>
+      <option value="hkscs2004-u30">HKSCS 2004 in Unicode 3.0 (2000) (info.gov.hk)</option>
+      <option value="hkscs2004-u41">HKSCS 2004 in Unicode 4.1 (2003) (info.gov.hk)</option>
+    </select>, compare with <select id="compareTableName" onchange="updateTable()">
+      <option value="" selected></option>
+      <option value="MICSFT-WINDOWS-CP950">Windows CP950 (unicode.org)</option>
+      <option value="cp950-u2b">Windows CP950 Unicode→Big5 (moztw.org)</option>
+      <option value="cp950-b2u">Windows CP950 Big5→Unicode (moztw.org)</option>
+      <option value="big5_2003-u2b">Big5-2003 Unicode→Big5 (moztw.org)</option>
+      <option value="big5_2003-b2u">Big5-2003 Big5→Unicode (moztw.org)</option>
+      <option value="uao241-u2b">UAO 2.41 Unicode→Big5 (moztw.org)</option>
+      <option value="uao241-b2u">UAO 2.41 Big5→Unicode (moztw.org)</option>
+      <option value="uao250-u2b">UAO 2.50 Unicode→Big5 (moztw.org)</option>
+      <option value="uao250-b2u">UAO 2.50 Big5→Unicode (moztw.org)</option>
+      <option value="moz18-u2b">Mozilla 1.8 Unicode→Big5 (moztw.org)</option>
+      <option value="moz18-b2u">Mozilla 1.8 Big5→Unicode (moztw.org)</option>
+      <option value="moz18-b2u-strict">Mozilla 1.8 Strict Big5→Unicode (moztw.org)</option>
+      <option value="hkscs2001-u2b">Big5-HKSCS 2001 Unicode→Big5 (moztw.org)</option>
+      <option value="hkscs2001-b2u">Big5-HKSCS 2001 Big5→Unicode (moztw.org)</option>
+      <option value="hkscs2004-u11">HKSCS 2004 in Unicode 1.1 (1993) (info.gov.hk)</option>
+      <option value="hkscs2004-u30">HKSCS 2004 in Unicode 3.0 (2000) (info.gov.hk)</option>
+      <option value="hkscs2004-u41">HKSCS 2004 in Unicode 4.1 (2003) (info.gov.hk)</option>
+    </select></p>
+    <p>Go to:
+      <code><a href="#row-0000">0000</a></code>
+      <code><a href="#row-2100">2100</a></code>
+      <code><a href="#row-8140">8140</a></code>
+      <code><a href="#row-A140">A140</a></code>
+      <code><a href="#row-C6A0">C6A0</a></code>
+      <code><a href="#row-C940">C940</a></code>
+      <code><a href="#row-F9D0">F9D0</a></code>
+    </p>
+  </div>
+  <h2>Statistics</h2>
+  <ul>
+    <li>Total (disregard ASCII): <span id="stat-count">-</span></li>
+    <li>Private User Areas: <span id="stat-pua">-</span></li>
+    <li>non-Private User Areas: <span id="stat-non-pua">-</span></li>
+    <li>CJK Compatibility Ideographs: <span id="stat-cjk-comp">-</span></li>
+    <li>non-Basic Multilingual Plane: <span id="stat-non-bmp">-</span></li>
+    <li>Map to same Unicode code point(s): <span id="stat-multi">-</span></li>
+    <li>Map to composed Unicode characters: <span id="stat-composed">-</span></li>
+    <li>Error mappings: <span id="stat-error">-</span></li>
+  </ul>
+  <h2>Comparison</h2>
+  <ul>
+    <li>Removed from compared: <span id="stat-removed">-</span></li>
+    <li>Added from compared: <span id="stat-added">-</span></li>
+    <li>Conflict from compared: <span id="stat-conflict">-</span></li>
+  </ul>
+  <h2>Table</h2>
+  <table id="table"></table>
+  <h2>Sources</h2>
+  <ul>
+    <li>unicode.org: <a href="http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WINDOWS/CP950.TXT">CP950.TXT</a></li>
+    <li>moztw.org: Tables found at <a href="https://moztw.org/docs/big5/">Big5 Variants in Mozilla: Mozilla 系列與 Big5 中文字碼</a></li>
+    <li>info.gov.hk: <a href="https://web.archive.org/web/20070705200733id_/http://www.info.gov.hk:80/digital21/eng/hkscs/download/hkscs-2004-big5-iso.txt">hkscs-2004-big5-iso.txt</a></li>
+  </ul>
+</body>
+</html>
