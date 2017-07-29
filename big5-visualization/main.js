@@ -129,8 +129,11 @@ class EncodingTable {
     }
   }
 
-  getReverseMappingValues(codePoint) {
-    return this.reverseMap.get(codePoint);
+  getTotalUnicodeCount() {
+    if (!this.reverseMap) {
+      this.setReverseMap();
+    }
+    return this.reverseMap.size;
   }
 }
 
@@ -161,6 +164,7 @@ async function updateTable() {
     'cjk-comp': 0,
     'non-bmp': 0,
     multi: 0,
+    'unicode-count' : 0,
     composed: 0,
     error: 0,
     added: 0,
@@ -251,6 +255,8 @@ async function updateTable() {
       stat.multi++;
     }
   }
+
+  stat['unicode-count'] = table.getTotalUnicodeCount();
 
   for (let id in stat) {
     document.getElementById('stat-' + id).textContent = stat[id];
