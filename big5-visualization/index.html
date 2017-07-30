@@ -19,6 +19,9 @@
     #controls select {
       font-size: 1.2em;
     }
+    tr.invalid-range {
+      display: none;
+    }
     th, td {
       border: 2px dashed #ccc;
       min-width: 1.5em;
@@ -133,6 +136,7 @@
     <li>Total unique Unicode code point(s): <span id="stat-unicode-count">-</span></li>
     <li>Map to composed Unicode characters: <span id="stat-composed">-</span></li>
     <li>Error mappings: <span id="stat-error">-</span></li>
+    <li>Out of valid range (0x0800 - 0x7fff inclusive): <span id="stat-out-of-range">-</span></li>
   </ul>
   <h2>Comparison</h2>
   <ul>

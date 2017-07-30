@@ -25,11 +25,8 @@ for (let i = 0; i <= 0xffff; i += 0x10) {
   let headerEl = document.createElement('th');
   headerEl.textContent = toHex(i).substr(0, 3) + 'x';
   rowEl.appendChild(headerEl);
-  if (i >= 0x0100 && i < 0x2000) {
+  if (i >= 0x0080 && i < 0x8000) {
     rowEl.className = 'invalid-range';
-  }
-  if (i >= 0x2000 && i < 0x8000) {
-    rowEl.className = 'invalid-range-uao';
   }
   rowEl.id = 'row-' + toHex(i);
   for (let j = 0; j <= 0xf; j++) {
@@ -167,6 +164,7 @@ async function updateTable() {
     'unicode-count' : 0,
     composed: 0,
     error: 0,
+    'out-of-range': 0,
     added: 0,
     removed: 0,
     conflict: 0
@@ -203,6 +201,10 @@ async function updateTable() {
 
     if (i > 0xff) {
       stat.count++;
+    }
+
+    if (i >= 0x0080 && i < 0x8000) {
+      stat['out-of-range']++;
     }
 
     el.className = '';
